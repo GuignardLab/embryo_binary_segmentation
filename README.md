@@ -6,7 +6,7 @@
 [![tests](https://github.com/GuignardLab/embryo_binary_segmentation/workflows/tests/badge.svg)](https://github.com/GuignardLab/embryo_binary_segmentation/actions)
 [![codecov](https://codecov.io/gh/GuignardLab/embryo_binary_segmentation/branch/main/graph/badge.svg)](https://codecov.io/gh/GuignardLab/embryo_binary_segmentation)
 
-CNN-based model for 3D segmentation of mou
+CNN-based model for 3D segmentation of mouse embryo
 
 ----------------------------------
 
