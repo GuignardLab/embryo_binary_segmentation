@@ -27,7 +27,7 @@ To install latest development version :
 
 > compliance with the data structure is necessary for correct data loading
 
-Paths to the train and validation are specified separately. **It is important that the folder with images has FUSION in its name, and the folder with masks has SEG in its name.**
+**It is important that the folder with images has FUSION in its name, and the folder with masks has SEG in its name.**
 
 Each folder must have the following structure:
 
