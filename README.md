@@ -51,9 +51,52 @@ Each folder must have the following structure:
             - e2.tif
             - ...
 
-
-
 The alphabetical order of image files and masks must match.
+
+
+## Parameters
+
+DATA_PARAMS = {
+    "data_path": folder with the Train and Val datasets,
+    "binarize": if you need to binarize masks before training,
+    "target_size": size of cropped images,
+    "patch_size": size of patches (less size, easy trainig),
+    "augmentations": if you want to apply augmentations
+}  
+
+FINE_TUNING = {
+    "upload_model_path": path to saved model,
+    "old_steps": if you want to continue epochs count,
+}
+
+
+TRAINING_PARAMS = {
+    "loss": loss function,
+    "learning_rate": 1e-4,
+    "batch_size": 8,
+    "epochs": total amount,
+    "save_model_path": folder where you will save best model,
+    "fine_tuning":True,
+    "save_each": if you want to save each 5th model weights,
+}
+
+TEST_PARAMS = {
+    "data_path":"folder with test data",
+    "binarize":False,
+    "target_size":[64, 512, 512],
+    "patch_size":[32, 512, 512],
+    "batch_size": 2,
+    "load_model_path": path to the model weights,
+    "load_csv_path": path to the csv file with losses by epochs
+}
+
+PRED_PARAMS = {
+    "data_path": folder with data for final prediction,
+    "final_load_model_path": path to the model weights,
+    "batch_size": don't use big number because you predict on the full size images,
+    "save_pred_path": where you want to save predictions
+}
+
 
 ## Contributing
 

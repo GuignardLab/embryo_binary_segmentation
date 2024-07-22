@@ -3,6 +3,7 @@ import csv
 from tqdm import tqdm
 from time import time
 import os
+import torchio as tio
 
 
 def save_losses(epoch, train_loss, val_loss, time, filepath):
@@ -11,20 +12,21 @@ def save_losses(epoch, train_loss, val_loss, time, filepath):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writerow({'epoch': epoch, 'train_loss': train_loss, 'val_loss': val_loss, 'time':time})
 
-def train(model, opt, loss_fn, epochs, data_tr, data_val, save_path, upload_path=None, old_steps=0, save_each=True):
+def train(model, device, opt, loss_fn, epochs, data_tr, data_val, save_path, save_each=True, upload_path=None, old_steps=0):
     min_val_loss = float('inf')
     best_epoch = 0
     model_save_path = f"{save_path}/best.model"
     csv_save_path  = f"{save_path}/training_data.csv"
 
-    if os.path.exists(upload_path):
-    model.load_state_dict(torch.load(upload_path))
-    print("Loaded model weights from", upload_path)
+    if upload_path != None:
+        if os.path.exists(upload_path):
+            model.load_state_dict(torch.load(upload_path))
+            print("Loaded model weights from", upload_path)
     
     for epoch_1 in range(epochs):
         epoch = epoch_1 + old_steps
         tic = time()
-        print('* Epoch %d/%d' % (epoch+1, epochs))
+        print('* Epoch %d/%d' % (epoch+1, epochs+old_steps))
 
         avg_loss = 0
         model.train() 

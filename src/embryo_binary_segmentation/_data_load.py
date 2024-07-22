@@ -30,7 +30,9 @@ def load_images_masks(base_folder):
                     print(item_path)
                     #print(image_filenames)
                     for filename in image_filenames:
-                        images.append(IO.imread(os.path.join(item_path, filename)))
+                        image = IO.imread(os.path.join(item_path, filename))
+                        image = np.transpose(image, (2, 0, 1))
+                        images.append(image)
                             
                 elif item.startswith('SEG'):
                     mask_filenames = sorted(os.listdir(item_path))
@@ -38,7 +40,9 @@ def load_images_masks(base_folder):
                     print(item_path)
                     #print(mask_filenames)
                     for filename in mask_filenames:
-                        masks.append(IO.imread(os.path.join(item_path, filename)))
+                        mask = IO.imread(os.path.join(item_path, filename))
+                        mask = np.transpose(mask, (2, 0, 1))
+                        masks.append(mask)
 
                 
                 recursive_search(item_path)
@@ -49,7 +53,7 @@ def load_images_masks(base_folder):
 
 
 
-def cropp(images, masks, binarize=False, target=[64, 512, 512], astec=False):
+def cropp(images, masks, binarize=False, target=[64, 512, 512], resize=False):
     
     cropped_images = []
     cropped_masks = []
@@ -63,7 +67,7 @@ def cropp(images, masks, binarize=False, target=[64, 512, 512], astec=False):
         
         size = binary_mask.shape
 
-        if astec:
+        if resize:
             resize_factors = [max(1, 640 / dim) if dim < 540 else 1 for dim in size]
             if any(factor > 1 for factor in resize_factors):
                 image = zoom(image, resize_factors, order=1)  
@@ -178,22 +182,22 @@ class create_dataset(Dataset):
 
 
 
-def upload_data(data_path, label, binarize=False, patch_size=[32, 256, 256], target=[64, 512, 512], astec=False):
+def upload_data(data_path, label, binarize=False, patch_size=[32, 256, 256], target=[64, 512, 512], resize=False):
 
     image_files, mask_files = load_images_masks(data_path)
 
     if label == 'train':
-        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, astec)
+        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, resize)
         normalize_images = normalization(cropped_images)
         dataset = create_dataset(normalize_images, cropped_masks, patch_size, 'train')
 
     elif label == 'val':
-        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, astec)
+        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, resize)
         normalize_images = normalization(cropped_images)
         dataset = create_dataset(normalize_images, cropped_masks, patch_size, 'val')
 
     elif label == 'test':
-        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, astec)
+        cropped_images, cropped_masks = cropp(image_files, mask_files, binarize, target, resize)
         normalize_images = normalization(cropped_images)
         dataset = create_dataset(normalize_images, cropped_masks, 'test')
 
