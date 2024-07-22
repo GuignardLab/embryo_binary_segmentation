@@ -23,6 +23,38 @@ To install latest development version :
     pip install git+https://github.com/GuignardLab/embryo_binary_segmentation.git
 
 
+## Data structure
+
+> compliance with the data structure is necessary for correct data loading
+
+Paths to the train and validation are specified separately. **It is important that the folder with images has FUSION in its name, and the folder with masks has SEG in its name.**
+
+Each folder must have the following structure:
+
+- Train
+    - JLM_12
+        - FUSE
+            - e1.tif
+            - e2.tif
+            - ...
+        - SEG
+            - e1.tif
+            - e2.tif
+            - ...
+    - Woon_7
+        - FUSE
+            - e1.tif
+            - e2.tif
+            - ...
+        - SEG
+            - e1.tif
+            - e2.tif
+            - ...
+
+
+
+The alphabetical order of image files and masks must match.
+
 ## Contributing
 
 Contributions are very welcome. Tests can be run with [tox], please ensure
