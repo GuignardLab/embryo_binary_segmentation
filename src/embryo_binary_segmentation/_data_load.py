@@ -8,7 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import IO
-from skimage import transform
+#from skimage import io as IO
+from skimage import transform, io
 from skimage.measure import regionprops
 import torchio as tio
 import cv2 as cv

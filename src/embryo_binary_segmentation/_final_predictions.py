@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-import IO
+import io
 from tifffile import imsave
 
 def resize_to_multiple_of_4(image):
